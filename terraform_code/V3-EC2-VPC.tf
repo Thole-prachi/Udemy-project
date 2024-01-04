@@ -5,8 +5,9 @@ provider "aws" {
 resource "aws_instance" "demo-server" {
     ami = "ami-022e1a32d3f742bd8"
     instance_type = "t2.micro"
-    key_name = "dpp"
-    security_groups = [ "demo-sg" ]
+    key_name = "prachi-practice"
+   // security_groups = [ "demo-sg" ]
+    vpc_security_group_ids = [aws_security_group.demo-sg.id]
     subnet_id = aws_subnet.dpw-public-subnet01.id
     
 }
@@ -71,7 +72,7 @@ resource "aws_internet_gateway" "dpw-igw" {
 }
 resource "aws_route_table" "dpw-rt" {
     vpc_id = aws_vpc.dpw-vpc.id
-    route = {
+    route {
         cidr_block = "0.0.0.0/0"
         gateway_id = aws_internet_gateway.dpw-igw.id
     }  

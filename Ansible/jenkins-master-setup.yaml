@@ -9,8 +9,8 @@
 
   - name: add jenkins repo   
     yum_repository: 
-    repo: 'deb https://pkg.jenkins.io/redhat-stable/jenkins.repo'
-    state: present
+      repo: 'deb https://pkg.jenkins.io/redhat-stable/jenkins.repo'
+      state: present
 
   - name: install java
     yum: 

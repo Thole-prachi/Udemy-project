@@ -2,26 +2,33 @@
 - hosts: Jenkins-master
   become: true
   tasks:
+  - name: Update package cache_valid_time
+    yum:
+      name: '*'
+      state: latest
+
   - name: add jenkins key
-    yum_key:
-      url : https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+    become_user: root
+    rpm_key:
+      key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
       state: present
 
-  - name: add jenkins repo   
-    yum_repository: 
-      repo: 'deb https://pkg.jenkins.io/redhat-stable/jenkins.repo'
-      state: present
+  - name: add jenkins yum_repository
+    become_user: root
+    get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
 
   - name: install java
-    yum: 
+    yum:
       name: java-17-openjdk
       state: present
-  
+
   - name: install jenkins
     yum:
       name: jenkins
       state: present
-  
+
   - name: start jenkins service
     service:
       name: jenkins

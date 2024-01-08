@@ -18,9 +18,17 @@ resource "aws_security_group" "demo-sg" {
   vpc_id = aws_vpc.dpw-vpc.id
   
   ingress {
-    description      = "Shh access"
+    description      = "SHH access"
     from_port        = 22
     to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    }
+
+    ingress {
+    description      = "Jenkins access"
+    from_port        = 8080
+    to_port          = 8080
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     }

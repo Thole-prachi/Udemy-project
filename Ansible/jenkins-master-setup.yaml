@@ -1,5 +1,5 @@
 ---
-- hosts: Jenkins-master
+- hosts: jenkins-master
   become: true
   tasks:
     - name: Update package cache
@@ -9,23 +9,23 @@
 
     - name: add Jenkins key
       become_user: root
-      rpm_key:
-        key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+      apt_key:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
         state: present
 
-    - name: add Jenkins yum_repository
+    - name: add Jenkins repository
       become_user: root
-      get_url:
-        url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
-        dest: /etc/yum.repos.d/jenkins.repo
+      apt_repository:
+        repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+        state: present
 
     - name: install Java 17 OpenJDK
-      yum:
-        name: java-17
+      apt:
+        name: openjdk-17-jre
         state: present
 
     - name: install Jenkins
-      yum:
+      apt:
         name: jenkins
         state: present
 

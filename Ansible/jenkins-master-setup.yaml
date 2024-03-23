@@ -3,7 +3,7 @@
   become: true
   tasks:
     - name: Update package cache
-      yum:
+      apt:
         name: '*'
         state: latest
 

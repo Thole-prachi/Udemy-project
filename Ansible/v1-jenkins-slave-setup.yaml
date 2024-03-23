@@ -1,15 +1,16 @@
 ---
-- hosts: Build-slave
+- hosts: jenkins-slave
   become: true
   tasks:
     - name: Update package cache
-      yum:
-        name: '*'
-        state: latest
+      apt::
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600
   
     - name: install Java 17
-      yum:
-        name: java-17
+      apt:
+        name: openjdk-17-jre
         state: present
         
     - name: download maven package
